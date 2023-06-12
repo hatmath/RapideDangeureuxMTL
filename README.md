@@ -1,4 +1,5 @@
 #ÉNONCÉ
+
     À remettre le 13 juin 2023 avant 23h59 | Équipe de 2 (30%)
     TP1 : Rapide & Dangereux (Édition ville de Montréal)
 
@@ -21,6 +22,7 @@
     Il faut utiliser l’API de Google (Maps) ou un autre de votre choix. Vous devrez effectuer vos recherches et lire la documentation pour savoir comment l’utiliser. Choisissez la métrique du cas 4 que vous trouvez la plus intéressante et afficher un repère sur ce lieu. Par exemple, affichez un repère à l’endroit où il y a eu le maximum de morts.
 
 #TO DO
+
     Rechercher to do dans le code pour trouver les choses à faire
     Si vous ajouter un to do faites le dans le code et ici dans le readme
      
@@ -32,38 +34,39 @@
     2. Format en minutes plutôt qu'en milliseconde. Ds express.js -> console.log("En attente pendant " + timeoutDelay);
 
 #NOTES IMPLANTATION
-Cas 4: 
-    Données descriptives (5)
 
-    DT_ACCDN
-        Date de l’accident (AAAA-MM-JJ).
-    BORNE_KM_ACCDN
-        lieu est marquée par des bornes kilométriques, le numéro
-        de la borne située le plus près du site de l’accident sera
-        inscrit.
-    CD_LOCLN_ACCDN
-        Localisation longitudinale (le long de la route) du premier fait 
-        physique (impact).
-    CD_PNT_CDRNL_REPRR
-        Code du point cardinal pour la distance du repère:
-        L’accident est survenu au nord, au sud, à l’est ou à l’ouest du
-        numéro d’immeuble, de la borne kilométrique, de l’intersection
-        ou du repère.
-    CD_ASPCT_ROUTE
-        Aspect de la route sur le lieu de l’accident au moment de Alph 2
-        l’impact et dans son entourage immédiat en fonction du champ
-        de vision d’un conducteur assis au volant de son véhicule.
+    Cas 4: 
+        Données descriptives (5)
+
+        DT_ACCDN
+            Date de l’accident (AAAA-MM-JJ).
+        BORNE_KM_ACCDN
+            lieu est marquée par des bornes kilométriques, le numéro
+            de la borne située le plus près du site de l’accident sera
+            inscrit.
+        CD_LOCLN_ACCDN
+            Localisation longitudinale (le long de la route) du premier fait 
+            physique (impact).
+        CD_PNT_CDRNL_REPRR
+            Code du point cardinal pour la distance du repère:
+            L’accident est survenu au nord, au sud, à l’est ou à l’ouest du
+            numéro d’immeuble, de la borne kilométrique, de l’intersection
+            ou du repère.
+        CD_ASPCT_ROUTE
+            Aspect de la route sur le lieu de l’accident au moment de Alph 2
+            l’impact et dans son entourage immédiat en fonction du champ
+            de vision d’un conducteur assis au volant de son véhicule.
 
 
-    Métriques d’agrégations (5)
+        Métriques d’agrégations (5)
 
-        1. Le jour de la semaine (JR_SEMN_ACCDN) où il y a le plus d'accident et que CD_COND_METEO=Pluie/bruine
-        2. Le jour de la semaine (JR_SEMN_ACCDN) où il y a le plus d'accident avec CD_GENRE_ACCDN=43(arbre)
-        3. Le jour de la semaine (JR_SEMN_ACCDN) où il y a le plus d'accident et que GRAVITE=Léger
-        4. Rue (RUE_ACCDN) où il y a le plus d'accident à Montréal
-        5. Vitesse autorisée (VITESSE_AUTOR) où il y a le plus d'accident
+            1. Le jour de la semaine (JR_SEMN_ACCDN) où il y a le plus d'accident et que CD_COND_METEO=Pluie/bruine
+            2. Le jour de la semaine (JR_SEMN_ACCDN) où il y a le plus d'accident avec CD_GENRE_ACCDN=43(arbre)
+            3. Le jour de la semaine (JR_SEMN_ACCDN) où il y a le plus d'accident et que GRAVITE=Léger
+            4. Rue (RUE_ACCDN) où il y a le plus d'accident à Montréal
+            5. Vitesse autorisée (VITESSE_AUTOR) où il y a le plus d'accident
 
-Cas 5:
-    Le choix est dérivé de la Métriques d’agrégations "Rue (RUE_ACCDN) où il y a le plus d'accident à Montréal"
-    Un repère unique sur la rue en question sera placé sur la carte
+    Cas 5:
+        Le choix est dérivé de la Métriques d’agrégations "Rue (RUE_ACCDN) où il y a le plus d'accident à Montréal"
+        Un repère unique sur la rue en question sera placé sur la carte
     
