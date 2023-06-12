@@ -1,0 +1,41 @@
+API de données CKAN×
+Accédez aux données de la ressource via une API web supportant des requêtes puissantes . Plus d'information dans la documentation de l'API CKAN et de l'extension DataStore.
+
+Points d'accès »
+L'API pour les données peut être accédée via les actions suivantes de l'API CKAN.
+
+Requête	https://donnees.montreal.ca/api/3/action/datastore_search
+Requête (via SQL)	https://donnees.montreal.ca/api/3/action/datastore_search_sql
+
+Interrogation »
+Exemple de requête (5 premiers résultats)
+https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=52492e26-628a-43c2-ba2f-12488b567fa0&limit=5
+
+Exemple de requête (résultats contenant 'jones')
+https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=52492e26-628a-43c2-ba2f-12488b567fa0&q=jones
+
+Exemple de requête (via commande SQL)
+https://donnees.montreal.ca/api/3/action/datastore_search_sql?sql=SELECT * from "52492e26-628a-43c2-ba2f-12488b567fa0" WHERE title LIKE 'jones'
+
+Exemple : Javascript »
+Une requête ajax simple (JSONP) à l'API des données en utilisant jQuery.
+
+          var data = {
+            resource_id: '52492e26-628a-43c2-ba2f-12488b567fa0', // the resource id
+            limit: 5, // get 5 results
+            q: 'jones' // query for 'jones'
+          };
+          $.ajax({
+            url: 'https://donnees.montreal.ca/api/3/action/datastore_search',
+            data: data,
+            dataType: 'jsonp',
+            success: function(data) {
+              alert('Total results found: ' + data.result.total)
+            }
+          });
+
+Exemple : Python »
+        import urllib
+        url = 'https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=52492e26-628a-43c2-ba2f-12488b567fa0&limit=5&q=title:jones'  
+        fileobj = urllib.urlopen(url)
+        print fileobj.read()

@@ -46,7 +46,6 @@ app.listen(
 );
 
 //FUNCTIONS
-
 async function getMtlData() {
 
     let response = await fetch("https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=05deae93-d9fc-4acb-9779-e0942b5e962f&limit=10");
@@ -66,6 +65,7 @@ async function getMtlData() {
 
 
 async function apiInfo() {
+  
   try {
     const response = await axios.get(targetApiRoot + apiNext); // &limit=0 juste pour savoir le nombre d'objets json total
     databaseSize = response.data.result.total;    
@@ -77,58 +77,58 @@ async function apiInfo() {
     console.log(response.data.result._links);   
     apiNext = "/api/3/action/datastore_search?resource_id=05deae93-d9fc-4acb-9779-e0942b5e962f&limit=" + dataLimit //set apiNext à 1000 avant d'apppeler récursivement dataFetch
     db.dropDatabase("RDmtlData");
-    // dataLimitTotal = databaseSize; // si on veux tout les record de l'API 
+    // dataLimitTotal = databaseSize; // si on veux tout les objets de l'API soit plus de 218,000
     dataFetch();
   } catch (error) {
     console.error(error); 
   }
+
 }
 
 
 function dataFetch() {
-
+  
   console.log("start fetching api data");
   console.log("url:" + targetApiRoot + apiNext);
 
   axios.get(targetApiRoot + apiNext)
-  .then(function (response) {
-    // handle success
-    console.log("axios.then");
-    lastDataUpdate = Date.now();
+    .then(function (response) {
+      // handle success
+      console.log("axios.then");
+      lastDataUpdate = Date.now();
 
-    for(var accident of response.data.result.records) {
-              
-      console.log(accident);
+      for(var accident of response.data.result.records) {
+                
+        console.log(accident);
 
-      db.collection("dataVDM").insertOne(accident, function(err, res) {
-          if (err) throw err;
-          dataFetched += 1;
-          console.log("dataFetched: " + dataFetched);
-          //db.close();
-        });
+        db.collection("dataVDM").insertOne(accident, function(err, res) {
+            if (err) throw err;
+            dataFetched += 1;
+            console.log("dataFetched: " + dataFetched);
+            //db.close();
+          });
 
-    }
-    
-    if (dataFetched < dataLimitTotal) { // to do: 1500 n'a pas lieu d'etre seulement la pcq ca plante autrement debugger on veux que tant que dataFetched < que databaseSize on continue
-      apiNext = response.data.result._links.next; 
-      console.log("Next: " + apiNext);
-      dataFetch(); 
-    }
-    
-  })
-  .catch(function (error) {
-    // handle error
-    console.log("error");
-    console.log(error);
-  })
-  .finally(function () {
-    // always executed
-    console.log("finally");
-    lastDataUpdate = Date.now(); // millisecondes depuis 1970
-  }); 
+      }
+      
+      if (dataFetched < dataLimitTotal) { // to do: 1500 n'a pas lieu d'etre seulement la pcq ca plante autrement debugger on veux que tant que dataFetched < que databaseSize on continue
+        apiNext = response.data.result._links.next; 
+        console.log("Next: " + apiNext);
+        dataFetch(); 
+      }
+      
+    })
+    .catch(function (error) {
+      // handle error
+      console.log("error");
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+      console.log("finally");
+      lastDataUpdate = Date.now(); // millisecondes depuis 1970
+    }); 
 
 }
-
 
 function reloadData(){
   apiInfo();
