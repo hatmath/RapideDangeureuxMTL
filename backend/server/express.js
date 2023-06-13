@@ -24,7 +24,7 @@ let apiStart = "";
 let apiNext = "/api/3/action/datastore_search?resource_id=05deae93-d9fc-4acb-9779-e0942b5e962f&limit=0"; //initialiser pour la toute première requête
 let dataLimit = 100;
 // dataLimit = 10
-let dataLimitTotal = 1000;
+let dataLimitTotal = 1600;
 // dataLimitTotal = 10;
 let timeoutDelay = 86400000; // 24h en milli
 //timeoutDelay = 10000;
@@ -46,23 +46,6 @@ app.listen(
 );
 
 //FUNCTIONS
-async function getMtlData() {
-
-    let response = await fetch("https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=05deae93-d9fc-4acb-9779-e0942b5e962f&limit=10");
-    let mtlDataRawJson = await response.json()
-    
-    .then((accidents) => {
-            for(var accident of accidents.result.records) {
-                
-                console.log(accident);
-                db.collection("dataVDM").insertOne(accident, function(err, res) {
-                    if (err) throw err;
-                    console.log("1 document inserted");
-                    //db.close();
-                  });
-            }})
-}
-
 
 async function apiInfo() {
   
@@ -85,7 +68,6 @@ async function apiInfo() {
 
 }
 
-
 function dataFetch() {
   
   console.log("start fetching api data");
@@ -94,21 +76,12 @@ function dataFetch() {
   axios.get(targetApiRoot + apiNext)
     .then(function (response) {
       // handle success
-      console.log("axios.then");
+      
       lastDataUpdate = Date.now();
-
-      for(var accident of response.data.result.records) {
-                
-        console.log(accident);
-
-        db.collection("dataVDM").insertOne(accident, function(err, res) {
-            if (err) throw err;
-            dataFetched += 1;
-            console.log("dataFetched: " + dataFetched);
-            //db.close();
-          });
-
-      }
+      
+      db.collection("dataVDM").insertMany(response.data.result.records);
+      console.log(response.data.result.records);
+      dataFetched += blockSize; //Should be retrieved from the API call...
       
       if (dataFetched < dataLimitTotal) { // to do: 1500 n'a pas lieu d'etre seulement la pcq ca plante autrement debugger on veux que tant que dataFetched < que databaseSize on continue
         apiNext = response.data.result._links.next; 
