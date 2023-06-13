@@ -21,14 +21,13 @@ let dataFetched = 0;
 let databaseSize = 0;
 let dbSchema = null;
 let apiNext = ""; 
-let dataLimit = 100;
+let dataLimit = 31000;
 let timeoutDelay = 86400000; 
-let apiNotReachable = true; // ignorer API
+let apiNotReachable = false; // ignorer API
 let loadCSVOnce = false;
 let loadCSVEachTime = true;
 let csvLoadCount = 0;
 let printToConsole = true;
-let loadDataSucess = false; // to do
 
 
 //Connection to database
@@ -79,18 +78,16 @@ async function apiInfo() {
       csvLoadCount++;
       loadCSV();
     }
-
   } catch (error) {  
     
     console.log("Erreur dans apiInfo()");
     console.error(error);
-
   }
 }
 
 function dataFetch() {
   
-  console.log("Télécharger des données de l'API");
+  console.log("Télécharger les données de l'API (" + dataLimit + "/fois)");
 
   axios.get(targetApiRoot + apiNext)
     .then(function (response) {
@@ -98,7 +95,7 @@ function dataFetch() {
       db.collection("dataVDM").insertMany(response.data.result.records); 
       dataFetched += dataLimit; 
 
-      if (printToConsole) { 
+      if (printToConsole) {
         console.log("API - Lien: " + targetApiRoot + apiNext);
         console.log("API - Nombre d'objets total (véridique): " + databaseSize);
         console.log("API - Nombre d'objets déjà récupérés: " + dataFetched);
@@ -107,8 +104,12 @@ function dataFetch() {
         console.log(response.data.result.records);
       }            
       
-      apiNext = response.data.result._links.next; 
-      dataFetch(); 
+      if (dataFetched < databaseSize) {
+        apiNext = response.data.result._links.next; 
+        dataFetch(); 
+      } else {
+        console.log("Fini de charger les " + databaseSize + "objets de l'API");
+      }
       
     })
     .catch(function (error) {
@@ -118,9 +119,8 @@ function dataFetch() {
     })
     .finally(function () {
       lastDataUpdate = Date.now();
-      loadDataSucess = true
+      loadDataSucess = true      
     }); 
-
 }
 
 async function loadCSV() {
@@ -128,7 +128,7 @@ async function loadCSV() {
   try {
 
     let  jsonArray;
- 
+    
     csv()
       .fromFile(csvFilePath)
       .then((jsonObj)=>{
@@ -142,7 +142,7 @@ async function loadCSV() {
         if (printToConsole) { 
           console.log("Contenu du fichier CSV: ");
           console.log(jsonArray);
-        } 
+        }
       });     
        
   } catch (error) {  
@@ -151,14 +151,12 @@ async function loadCSV() {
     console.log("Erreur de lecture/chargement du fichier CSV ou d'ajout dans la DB");
     console.error("Détail de l'erreur: " + error); 
 
-  } 
+  }
 }
 
 function reloadData(){
   apiInfo();
-  console.log("APRÈS le chargement des données le serveur se mettera en attente pour [ " + timeoutDelay + " ] millisecondes"); // to do: format en minutes
+  console.log("APRÈS le chargement des données le serveur se mettera en attente pour [ " + timeoutDelay + " ] millisecondes");
 }
 
-console.log("APRÈS le chargement des données le serveur se mettera en attente pour [ " + timeoutDelay + " ] millisecondes"); // to do: format en minutes
 setInterval(reloadData,timeoutDelay);
-
