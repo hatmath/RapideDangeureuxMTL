@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 const axios = require('axios');
 const csv=require('csvtojson');
 const { Schema } = require("mongoose");
-const port = 4002;
+const port = 4000;
 const targetApi = 'https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=05deae93-d9fc-4acb-9779-e0942b5e962f';
 const targetApiRoot = 'https://donnees.montreal.ca';
 const csvFilePath='cacheData/collisions_routieres.csv'; 
@@ -78,10 +78,12 @@ async function apiInfo() {
       csvLoadCount++;
       loadCSV();
     }
+
   } catch (error) {  
     
     console.log("Erreur dans apiInfo()");
     console.error(error);
+
   }
 }
 
@@ -108,7 +110,8 @@ function dataFetch() {
         apiNext = response.data.result._links.next; 
         dataFetch(); 
       } else {
-        console.log("Fini de charger les " + databaseSize + "objets de l'API");
+        console.log("Fini de charger les " + databaseSize + " objets de l'API");
+        console.log("Serveur en attente pour 24h...");
       }
       
     })
@@ -121,6 +124,7 @@ function dataFetch() {
       lastDataUpdate = Date.now();
       loadDataSucess = true      
     }); 
+
 }
 
 async function loadCSV() {
@@ -143,6 +147,10 @@ async function loadCSV() {
           console.log("Contenu du fichier CSV: ");
           console.log(jsonArray);
         }
+
+        console.log("Fini de charger les " + jsonArray.length + " objets du CSV");
+        console.log("Serveur en attente pour 24h...");
+
       });     
        
   } catch (error) {  
@@ -152,11 +160,12 @@ async function loadCSV() {
     console.error("Détail de l'erreur: " + error); 
 
   }
+  
 }
 
 function reloadData(){
-  apiInfo();
-  console.log("APRÈS le chargement des données le serveur se mettera en attente pour [ " + timeoutDelay + " ] millisecondes");
+  apiInfo();  
 }
 
 setInterval(reloadData,timeoutDelay);
+
