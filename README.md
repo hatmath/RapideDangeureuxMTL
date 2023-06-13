@@ -31,7 +31,12 @@
         car avec des axios.get() de 1000 à la fois et un nombre illimité d'insertOne() dans la bd (possiblité de plus de 218,000) le programme fini par
         générer une erreur d'exécution
 
-    2. Format en minutes plutôt qu'en milliseconde. Ds express.js -> console.log("En attente pendant " + timeoutDelay);
+        Est-ce que c'est réglé pour de bon?
+
+    2. Format en minutes plutôt qu'en milliseconde. Ds express.js -> console.log("APRÈS le chargement des données le serveur se mettera en attente pour [ " + timeoutDelay + " ] millisecondes")
+    3. rm! siginifie remove à vérifier avant de remettre
+    4. Du au fonctionnement async/await ou des Promise et de setInterval, pas moyen pour l'instant d'afficher un msg comme quoi le serveur se met en attente pour 24h au bon endroit
+    5. S'entendre sur ce qu'on met pour let dataLimit = 100; let dataLimitTotal = 1000; dans express.js
 
 #NOTES IMPLANTATION
 
@@ -67,6 +72,13 @@
             5. Vitesse autorisée (VITESSE_AUTOR) où il y a le plus d'accident
 
     Cas 5:
-        Le choix est dérivé de la Métriques d’agrégations "Rue (RUE_ACCDN) où il y a le plus d'accident à Montréal"
-        Un repère unique sur la rue en question sera placé sur la carte
+        Le choix est dérivé de la métriques d’agrégations "Rue (RUE_ACCDN) où il y a le plus d'accident à Montréal"
+        Un repère unique sur la rue en question sera placé sur la carte. 
+        Il s'agit seulement de prendre un accident qui a eu lieu sur cette rue comme point de repère (Long-Lat)
+
+#ENTÊTE
+   
+    Projet: Rapide & Dangereux (Édition ville de Montréal)
+    Codeurs: Joseph, Isabelle, Mathieu
+    Cours : Programmation Web côté serveur (420-289-AH)
     
