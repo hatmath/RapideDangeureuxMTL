@@ -15,7 +15,6 @@ const targetApiRoot = 'https://donnees.montreal.ca';
 
 //Variables
 let lastDataUpdate = -1;
-let blockSize = 100;
 let dataFetched = 0;
 let databaseSize = 0;
 let dbSchema = null;
@@ -81,7 +80,7 @@ function dataFetch() {
       
       db.collection("dataVDM").insertMany(response.data.result.records);
       console.log(response.data.result.records);
-      dataFetched += blockSize; //Should be retrieved from the API call...
+      dataFetched += dataLimit; //Should be retrieved from the API call...
       
       if (dataFetched < dataLimitTotal) { // to do: 1500 n'a pas lieu d'etre seulement la pcq ca plante autrement debugger on veux que tant que dataFetched < que databaseSize on continue
         apiNext = response.data.result._links.next; 
@@ -94,6 +93,7 @@ function dataFetch() {
       // handle error
       console.log("error");
       console.log(error);
+      // use CSV if 
     })
     .finally(function () {
       // always executed
