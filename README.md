@@ -24,19 +24,10 @@
 #TO DO
 
     Rechercher to do dans le code pour trouver les choses à faire
-    Si vous ajouter un to do faites le dans le code et ici dans le readme
-     
-    1. Trouver le problème de connection BD aprés un nombre x de insertOne soit mongodb timeout ou la requête axios lance une erreur
-        C'est pourquoi pour l'instant on limit à 100 le nombre d'objets axios.get() (fetcher) et à 1000 total les insertOne() dans la bd
-        car avec des axios.get() de 1000 à la fois et un nombre illimité d'insertOne() dans la bd (possiblité de plus de 218,000) le programme fini par
-        générer une erreur d'exécution
+    Si vous ajouter un to do indiquer le dans le code et dans le readme.md
 
-        Est-ce que c'est réglé pour de bon?
-
-    2. Format en minutes plutôt qu'en milliseconde. Ds express.js -> console.log("APRÈS le chargement des données le serveur se mettera en attente pour [ " + timeoutDelay + " ] millisecondes")
-    3. rm! siginifie remove à vérifier avant de remettre
-    4. Du au fonctionnement async/await ou des Promise et de setInterval, pas moyen pour l'instant d'afficher un msg comme quoi le serveur se met en attente pour 24h au bon endroit
-    5. S'entendre sur ce qu'on met pour let dataLimit = 100; let dataLimitTotal = 1000; dans express.js
+    1. Cas 4
+    2. Cas 5
 
 #NOTES IMPLANTATION
 
