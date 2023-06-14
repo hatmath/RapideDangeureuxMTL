@@ -23,11 +23,12 @@ let dbSchema = null;
 let apiNext = ""; 
 let dataLimit = 31000;
 let timeoutDelay = 86400000; 
-let apiNotReachable = false; // ignorer API
+let apiNotReachable = true; // ignorer API
 let loadCSVOnce = false;
 let loadCSVEachTime = true;
 let csvLoadCount = 0;
-let printToConsole = true;
+let printToConsole = false;
+let oneData;
 
 
 //Connection to database
@@ -138,6 +139,7 @@ async function loadCSV() {
       .then((jsonObj)=>{
         jsonArray = jsonObj;
         db.collection("dataVDM").insertMany(jsonArray);
+        oneData = jsonArray[0];
       })
       .finally(function () {
         loadDataSucess = true
@@ -162,6 +164,37 @@ async function loadCSV() {
   }
   
 }
+
+// **********************************************************************************
+// Define the route  
+app.get('/data', async (req, res) => {
+
+  let ma1 = "ma1"; // métrique aggregation 1
+  let ma2 = "ma2";
+  let ma3 = "ma3";
+  let ma4 = "ma4";
+  let ma5 = "ma5";
+  let long = "long";
+  let lat = "lat";
+  let dataStr ="";
+
+  dataStr = oneData.DT_ACCDN + "," +
+            oneData.BORNE_KM_ACCDN + "," +
+            oneData.CD_LOCLN_ACCDN + "," +
+            oneData.CD_PNT_CDRNL_REPRR + "," +
+            oneData.CD_ASPCT_ROUTE + "," +
+            ma1  + "," +
+            ma2  + "," +
+            ma3  + "," +
+            ma4  + "," +
+            ma5  + "," +
+            long + "," +
+            lat; 
+
+  res.send(dataStr);
+
+});
+// **********************************************************************************
 
 function reloadData(){
   apiInfo();  
