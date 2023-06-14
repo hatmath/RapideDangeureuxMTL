@@ -5,6 +5,7 @@
 
 //Constants
 const app = require('express')();
+const mongoDB = require('mongodb')
 const mongoose = require("mongoose");
 const axios = require('axios');
 const csv=require('csvtojson');
@@ -139,7 +140,7 @@ async function loadCSV() {
       .then((jsonObj)=>{
         jsonArray = jsonObj;
         db.collection("dataVDM").insertMany(jsonArray);
-        oneData = jsonArray[0];
+        //oneData = jsonArray[0];
       })
       .finally(function () {
         loadDataSucess = true
@@ -169,29 +170,22 @@ async function loadCSV() {
 // Define the route  
 app.get('/data', async (req, res) => {
 
-  let ma1 = "ma1"; // métrique aggregation 1
-  let ma2 = "ma2";
-  let ma3 = "ma3";
-  let ma4 = "ma4";
-  let ma5 = "ma5";
-  let long = "long";
-  let lat = "lat";
-  let dataStr ="";
+  let selectedId = req.query.idDB;
+  let idObject = {};
+  idObject["_id"] = parseInt(selectedId);
+  let selectedData = await db.collection("dataVDM")
+                             .findOne(idObject);
+  
+  let outputData = {
+  "date" : selectedData["DT_ACCDN"],
+  "borne" : selectedData["BORNE_KM_ACCDN"],
+  "locln" : selectedData["CD_LOCLN_ACCDN"],
+  "cdrnl" : selectedData["CD_PNT_CDRNL_REPRR"],
+  "aspct" : selectedData["CD_ASPCT_ROUTE"]
+  }
 
-  dataStr = oneData.DT_ACCDN + "," +
-            oneData.BORNE_KM_ACCDN + "," +
-            oneData.CD_LOCLN_ACCDN + "," +
-            oneData.CD_PNT_CDRNL_REPRR + "," +
-            oneData.CD_ASPCT_ROUTE + "," +
-            ma1  + "," +
-            ma2  + "," +
-            ma3  + "," +
-            ma4  + "," +
-            ma5  + "," +
-            long + "," +
-            lat; 
 
-  res.send(dataStr);
+  res.send(outputData);
 
 });
 // **********************************************************************************

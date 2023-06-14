@@ -22,3 +22,19 @@ L.marker(target).addTo(map);
 function setMapTarget(newLat, newLong) {
     target = L.latLng(newLat, newLong);
 }
+
+document.addEventListener('load', function() {
+    // Fetch data and populate textboxes
+    fetch('/data')
+      // .then(response => response.json())
+      .then(data => {
+        document.getElementById('statdata_01').value = data.date;
+        document.getElementById('statdata_02').value = data.borne;
+        document.getElementById('statdata_03').value = data.locln;
+        console.log("is happening")
+        
+      })
+      .catch(err => {
+        console.log('Error:', err);
+      });
+  });

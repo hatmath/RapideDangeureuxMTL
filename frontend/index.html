@@ -10,10 +10,12 @@
     crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
-    
+    crossorigin="">
+    </script>
+    <script src="webpage.js"></script>
     <title>Rapide et dangereux</title>
 </head>
+
 <body>
     <h1>Rapide et dangereux Montreal</h1>
     <div id="map"></div>
@@ -22,6 +24,14 @@
 
     <h3>Données descriptives</h3>
     <table id="statistiqueStatique">
+
+        <form action="http://localhost:4000/data/" method="get">
+
+            <label for="idDbLabel">Numero d'entree dans la base de donnees : </label><br>
+            <input type="text" id="idDb" name="idDB">
+            <input type="submit" value="Submit">
+          </form>
+
         <tr id="statistique1">
           <th id="statname_01">Nom de la statistique</th>
           <th id="statdata_01">Statistique</th>
