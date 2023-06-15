@@ -3,6 +3,7 @@ window.onload = async function() {
 
     const res = await fetch("http://localhost:4000/data/?idDB=91");
     let data = await res.json();    
+    console.log(data);
 
     // Populate data store to textboxes
     document.getElementById('statname_01').innerText = "Date de l’accident";
@@ -15,8 +16,6 @@ window.onload = async function() {
     document.getElementById('statname_08').innerText = "Accident en 2016 impliquant un véhicule d'urgence sur une route categorie (14-rue résidentielle)";
     document.getElementById('statname_09').innerText = "Accident en 2014 le lundi";
     document.getElementById('statname_10').innerText = "Accident en 2013 le vendredi";
-
-    // let data = JSON.parse(localStorage.getItem('dataJson'));
 
     document.getElementById('statdata_01').innerText = data.date;
     document.getElementById('statdata_02').innerText = data.borne;

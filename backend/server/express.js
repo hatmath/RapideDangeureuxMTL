@@ -4,19 +4,14 @@
 
 //Constants
 const app = require('express')();
-const mongoDB = require('mongodb')
 const mongoose = require("mongoose");
 const axios = require('axios');
 const csv=require('csvtojson');
-const { Schema } = require("mongoose");
+const cors = require('cors');
 const port = 4000;
-const targetApi = 'https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=05deae93-d9fc-4acb-9779-e0942b5e962f';
 const targetApiRoot = 'https://donnees.montreal.ca';
 const csvFilePath='cacheData/collisions_routieres.csv'; 
 const dbAdress = "mongodb://127.0.0.1:27017/RDmtlData";
-
-var cors = require('cors');
-app.use(cors());
 
 //Variables
 let lastDataUpdate = -1;
@@ -29,7 +24,7 @@ let apiNotReachable = false; // ignorer API
 let loadCSVOnce = false;
 let loadCSVEachTime = true;
 let csvLoadCount = 0;
-let printToConsole = false;
+let printToConsole = false; // to do: remettre à true car répond au cas 1 du tp
 
 //Connection to database
 mongoose.connect(dbAdress);
@@ -37,9 +32,10 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
     console.log("Connected successfully, to Fetch API data");
-    apiInfo();
+    // apiInfo();
     });
 
+app.use(cors());
 
 //Express port listen
 app.listen(
@@ -163,15 +159,19 @@ async function loadCSV() {
   
 }
 
-// **********************************************************************************
+
 // Define the route  
 app.get('/data', async (req, res) => {
+
+  // to do: Pour une BD, CSV trouver une manière de bâtir une requête qui fonctionne 
+  // idObject = {"NO_SEQ_COLL": "SPVM _ 2012 _ 1"};
 
   let selectedId = req.query.idDB;
   let idObject = {};
   idObject["_id"] = parseInt(selectedId);
   let selectedData = await db.collection("dataVDM")
                              .findOne(idObject);
+
 //Aggr1 = accident en 2017 impliquant un arbre.
   let aggr1 = await db.collection("dataVDM").aggregate([
     { $match: { $and: [{CD_GENRE_ACCDN: 43}, {AN: 2017}]}},
@@ -241,14 +241,12 @@ let aggr4 = await db.collection("dataVDM").aggregate([
   "aggr3" : aggr3,
   "aggr4" : aggr4,
   "aggr5" : aggr5
-  }
+  } 
   
-  //console.log(selectedData);
-
   res.send(outputData);
 
 });
-// **********************************************************************************
+
 
 function reloadData(){
   apiInfo();  

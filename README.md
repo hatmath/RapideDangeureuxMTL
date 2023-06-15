@@ -35,6 +35,9 @@
     2. Cas 4
         index.html: On peux encore améliorer la présentation si quelqu'un le veux
         Métriques d’agrégations la 4 et la 5 ce ressemble trop trouver autre chose
+    
+    3.
+        express.js: remettre printToConsole=true avant de remettre
 
 
 #NOTES IMPLANTATION
