@@ -23,23 +23,6 @@ function setMapTarget(newLat, newLong) {
     target = L.latLng(newLat, newLong);
 }
 
-// document.addEventListener('load', function() {
-//     // Fetch data and populate textboxes
-//     fetch('/data')
-//       // .then(response => response.json())
-//       .then(data => {
-//         document.getElementById('statdata_01').value = data.date;
-//         document.getElementById('statdata_02').value = data.borne;
-//         document.getElementById('statdata_03').value = data.locln;
-//         console.log("is happening")
-        
-//       })
-//       .catch(err => {
-//         console.log('Error:', err);
-//       });
-//   });
-
-
 async function routeData () {
     // Fetch and store data
     let id = document.getElementById('idDb').value;
@@ -48,7 +31,7 @@ async function routeData () {
     localStorage.setItem("dataJson", JSON.stringify(data));
     window.location.reload();
 
-  };
+};
 
 window.onload = function() {
     // Populate data store to textboxes
@@ -57,14 +40,13 @@ window.onload = function() {
     document.getElementById('statname_03').innerText = "Localisation longitudinale";
     document.getElementById('statname_04').innerText = "Code du point cardinal";
     document.getElementById('statname_05').innerText = "Aspect de la route";
-
     document.getElementById('statname_06').innerText = "Accident en 2017 impliquant un arbre";
     document.getElementById('statname_07').innerText = "Accident en 2019 dans une zone de 40km avec la condition meteo (11-Clair)";
     document.getElementById('statname_08').innerText = "Accident en 2016 impliquant un véhicule d'urgence sur une route categorie (14-rue résidentielle)";
     document.getElementById('statname_09').innerText = "Accident en 2014 le lundi";
     document.getElementById('statname_10').innerText = "Accident en 2013 le vendredi";
 
-    console.log(localStorage.getItem('dataJson'));    
+ 
     let data = JSON.parse(localStorage.getItem('dataJson'));
 
     document.getElementById('statdata_01').innerText = data.date;
@@ -72,7 +54,6 @@ window.onload = function() {
     document.getElementById('statdata_03').innerText = data.locln; 
     document.getElementById('statdata_04').innerText = data.cdrnl;
     document.getElementById('statdata_05').innerText = data.aspct; 
-
     document.getElementById('statdata_06').innerText = data.aggr1[0].totalCount;
     document.getElementById('statdata_07').innerText = data.aggr2[0].totalCount;
     document.getElementById('statdata_08').innerText = data.aggr3[0].totalCount; 

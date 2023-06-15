@@ -27,7 +27,10 @@
     Si vous ajouter un to do indiquer le dans le code et dans le readme.md
 
     1. Cas 4
+        index.html: Présentation
+        express.js: Modifier l'objet json passer au frontend pour y mettre la latitude et longitude pour la carte
     2. Cas 5
+        webpage.js: Prendre les coordonnées reçues et placer le repère sur la carte
 
 #NOTES IMPLANTATION
 
