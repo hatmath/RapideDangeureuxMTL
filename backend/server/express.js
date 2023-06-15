@@ -16,8 +16,8 @@ const targetApiRoot = 'https://donnees.montreal.ca';
 const csvFilePath='cacheData/collisions_routieres.csv'; 
 const dbAdress = "mongodb://127.0.0.1:27017/RDmtlData";
 
-var cors = require('cors') // rm!
-app.use(cors()) // rm!
+var cors = require('cors');
+app.use(cors());
 
 //Variables
 let lastDataUpdate = -1;
@@ -222,7 +222,7 @@ let aggr4 = await db.collection("dataVDM").aggregate([
       return;
     }
   });
-  //Aggr4 = accident en 2013 le vendredi
+  //Aggr5 = accident en 2013 le vendredi
   let aggr5 = await db.collection("dataVDM").aggregate([
     { $match: { $and: [{JR_SEMN_ACCDN: "VE"}, {AN: 2013}]}},
     { $count: 'totalCount' }
