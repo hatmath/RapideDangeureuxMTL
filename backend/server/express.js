@@ -1,4 +1,3 @@
-
 // Projet: Rapide & Dangereux (Édition ville de Montréal)
 // Codeurs: Joseph, Isabelle, Mathieu
 // Cours : Programmation Web côté serveur (420-289-AH)
@@ -23,7 +22,6 @@ app.use(cors());
 let lastDataUpdate = -1;
 let dataFetched = 0;
 let databaseSize = 0;
-let dbSchema = null;
 let apiNext = ""; 
 let dataLimit = 31000;
 let timeoutDelay = 86400000; 
@@ -32,8 +30,6 @@ let loadCSVOnce = false;
 let loadCSVEachTime = true;
 let csvLoadCount = 0;
 let printToConsole = false;
-let oneData;
-
 
 //Connection to database
 mongoose.connect(dbAdress);
@@ -41,7 +37,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
     console.log("Connected successfully, to Fetch API data");
-    // apiInfo();
+    apiInfo();
     });
 
 
@@ -51,18 +47,17 @@ app.listen(
     ()=> console.log(`Express server live on port ${port}`)
 );
 
-
 //FUNCTIONS
 async function apiInfo() {
   
   try {
     
-    // db.dropDatabase("RDmtlData");
+    db.dropDatabase("RDmtlData");
 
     apiNext = "/api/3/action/datastore_search?resource_id=05deae93-d9fc-4acb-9779-e0942b5e962f&limit=0";
     const response = await axios.get(targetApiRoot + apiNext)
       .catch(function (error) {
-        console.log("Erreur durant la tentative de connection à l'API")  
+        console.log("Erreur durant la tentative de connection à l'API : " + error)  
         apiNotReachable = true;
       });  
 
@@ -143,7 +138,6 @@ async function loadCSV() {
       .then((jsonObj)=>{
         jsonArray = jsonObj;
         db.collection("dataVDM").insertMany(jsonArray);
-        //oneData = jsonArray[0];
       })
       .finally(function () {
         loadDataSucess = true
@@ -240,6 +234,8 @@ let aggr4 = await db.collection("dataVDM").aggregate([
   "locln" : selectedData["CD_LOCLN_ACCDN"],
   "cdrnl" : selectedData["CD_PNT_CDRNL_REPRR"],
   "aspct" : selectedData["CD_ASPCT_ROUTE"],
+  "accLong" : selectedData["LOC_LONG"],
+  "accLat" : selectedData["LOC_LAT"],
   "aggr1" : aggr1,
   "aggr2" : aggr2,
   "aggr3" : aggr3,

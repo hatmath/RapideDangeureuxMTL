@@ -1,28 +1,3 @@
-// Where you want to render the map.
-var element = document.getElementById('map');
-
-// Create Leaflet map on map element.
-var map = L.map(element);
-
-// Add OSM tile layer to the Leaflet map.
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
-
-// Target's GPS coordinates.
-var target = L.latLng('9.50737', '19.04611');
-
-// Set map's center to target with zoom 14.
-map.setView(target, 14);
-
-// Place a marker on the same location.
-L.marker(target).addTo(map);
-
-function setMapTarget(newLat, newLong) {
-    target = L.latLng(newLat, newLong);
-}
-
 async function routeData () {
     // Fetch and store data
     let id = document.getElementById('idDb').value;
@@ -30,7 +5,6 @@ async function routeData () {
     let data = await res.json();    
     localStorage.setItem("dataJson", JSON.stringify(data));
     window.location.reload();
-
 };
 
 window.onload = function() {
@@ -46,7 +20,6 @@ window.onload = function() {
     document.getElementById('statname_09').innerText = "Accident en 2014 le lundi";
     document.getElementById('statname_10').innerText = "Accident en 2013 le vendredi";
 
- 
     let data = JSON.parse(localStorage.getItem('dataJson'));
 
     document.getElementById('statdata_01').innerText = data.date;
@@ -58,6 +31,17 @@ window.onload = function() {
     document.getElementById('statdata_07').innerText = data.aggr2[0].totalCount;
     document.getElementById('statdata_08').innerText = data.aggr3[0].totalCount; 
     document.getElementById('statdata_09').innerText = data.aggr4[0].accidentLundi2014;
-    document.getElementById('statdata_10').innerText = data.aggr5[0].totalCount; 
+    document.getElementById('statdata_10').innerText = data.aggr5[0].totalCount;
 
+    //Map
+    var element = document.getElementById('map');
+    var map = L.map(element);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+    var target = L.latLng(data.accLat, data.accLong);
+
+    map.setView(target, 17);
+    L.marker(target).addTo(map);
 };
