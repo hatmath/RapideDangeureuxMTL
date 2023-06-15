@@ -26,11 +26,16 @@
     Rechercher to do dans le code pour trouver les choses à faire
     Si vous ajouter un to do indiquer le dans le code et dans le readme.md
 
-    1. Cas 4
-        index.html: Présentation
-        express.js: Modifier l'objet json passer au frontend pour y mettre la latitude et longitude pour la carte
-    2. Cas 5
-        webpage.js: Prendre les coordonnées reçues et placer le repère sur la carte
+    1. express.js: 
+        La route /data et ce qui en dépend ne fonctionne pas si les données viennent du CSV car _id est auto généré et construit différement des données en provenance l'API. 
+        Par exemple:
+        API:   "_id": "1" 
+        CSV:   "_id": {"$oid": "648b48ddcb29147e9097a838"}
+
+    2. Cas 4
+        index.html: On peux encore améliorer la présentation si quelqu'un le veux
+        Métriques d’agrégations la 4 et la 5 ce ressemble trop trouver autre chose
+
 
 #NOTES IMPLANTATION
 

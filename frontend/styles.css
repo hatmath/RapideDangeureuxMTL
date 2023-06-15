@@ -12,3 +12,8 @@ h3 {
 }
 
 #map { height: 360px; }
+
+th, tr {
+    text-align: left;
+    padding-right: 20px
+}

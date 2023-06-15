@@ -1,13 +1,9 @@
-async function routeData () {
-    // Fetch and store data
-    let id = document.getElementById('idDb').value;
-    const res = await fetch("http://localhost:4000/data/?idDB=" + id);
-    let data = await res.json();    
-    localStorage.setItem("dataJson", JSON.stringify(data));
-    window.location.reload();
-};
 
-window.onload = function() {
+window.onload = async function() {
+
+    const res = await fetch("http://localhost:4000/data/?idDB=91");
+    let data = await res.json();    
+
     // Populate data store to textboxes
     document.getElementById('statname_01').innerText = "Date de l’accident";
     document.getElementById('statname_02').innerText = "Borne kilométrique";
@@ -20,7 +16,7 @@ window.onload = function() {
     document.getElementById('statname_09').innerText = "Accident en 2014 le lundi";
     document.getElementById('statname_10').innerText = "Accident en 2013 le vendredi";
 
-    let data = JSON.parse(localStorage.getItem('dataJson'));
+    // let data = JSON.parse(localStorage.getItem('dataJson'));
 
     document.getElementById('statdata_01').innerText = data.date;
     document.getElementById('statdata_02').innerText = data.borne;
@@ -34,6 +30,7 @@ window.onload = function() {
     document.getElementById('statdata_10').innerText = data.aggr5[0].totalCount;
 
     //Map
+    document.getElementById('lblMap').innerText = "Un accident, est survenu le " + data.date.substring(0,10) + " à cet endroit:";
     var element = document.getElementById('map');
     var map = L.map(element);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
