@@ -24,7 +24,7 @@ let dbSchema = null;
 let apiNext = ""; 
 let dataLimit = 31000;
 let timeoutDelay = 86400000; 
-let apiNotReachable = true; // ignorer API
+let apiNotReachable = false; // ignorer API
 let loadCSVOnce = false;
 let loadCSVEachTime = true;
 let csvLoadCount = 0;
@@ -38,7 +38,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
     console.log("Connected successfully, to Fetch API data");
-    apiInfo();
+    //apiInfo();
     });
 
 
@@ -175,15 +175,76 @@ app.get('/data', async (req, res) => {
   idObject["_id"] = parseInt(selectedId);
   let selectedData = await db.collection("dataVDM")
                              .findOne(idObject);
-  
+//Aggr1 = accident en 2017 impliquant un arbre.
+  let aggr1 = await db.collection("dataVDM").aggregate([
+    { $match: { $and: [{CD_GENRE_ACCDN: 43}, {AN: 2017}]}},
+    { $count: 'totalCount' }
+    ])
+    .toArray((err, result) => {
+      if (err) {
+        console.error('Erreur: ', err);
+        return;
+      }
+    });
+//Aggr2 = accident en 2019 dans une zone de 40 avec la condition meteo (11)
+    let aggr2 = await db.collection("dataVDM").aggregate([
+      { $match: { $and: [{VITESSE_AUTOR: 40}, {CD_COND_METEO: 11}, {AN: 2019}]}},
+      { $count: 'totalCount' }
+      ])
+      .toArray((err, result) => {
+        if (err) {
+          console.error('Erreur: ', err);
+          return;
+        }
+      });
+//Aggr3 = accident en 2016 impliquant un vehicule d'urgence sur une route categorie (14)
+let aggr3 = await db.collection("dataVDM").aggregate([
+  { $match: { $and: [{nb_urgence: 1}, {CD_CATEG_ROUTE: 14}, {AN: 2016}]}},
+  { $count: 'totalCount' }
+  ])
+  .toArray((err, result) => {
+    if (err) {
+      console.error('Erreur: ', err);
+      return;
+    }
+  });
+//Aggr4 = accident en 2014 le lundi
+let aggr4 = await db.collection("dataVDM").aggregate([
+  { $match: { $and: [{JR_SEMN_ACCDN: "LU"}, {AN: 2014}]}},
+  { $count: 'accidentLundi2014' }
+  ])
+  .toArray((err, result) => {
+    if (err) {
+      console.error('Erreur: ', err);
+      return;
+    }
+  });
+  //Aggr4 = accident en 2013 le vendredi
+  let aggr5 = await db.collection("dataVDM").aggregate([
+    { $match: { $and: [{JR_SEMN_ACCDN: "VE"}, {AN: 2013}]}},
+    { $count: 'totalCount' }
+    ])
+    .toArray((err, result) => {
+      if (err) {
+        console.error('Erreur: ', err);
+        return;
+      }
+    });
+
   let outputData = {
   "date" : selectedData["DT_ACCDN"],
   "borne" : selectedData["BORNE_KM_ACCDN"],
   "locln" : selectedData["CD_LOCLN_ACCDN"],
   "cdrnl" : selectedData["CD_PNT_CDRNL_REPRR"],
-  "aspct" : selectedData["CD_ASPCT_ROUTE"]
+  "aspct" : selectedData["CD_ASPCT_ROUTE"],
+  "aggr1" : aggr1,
+  "aggr2" : aggr2,
+  "aggr3" : aggr3,
+  "aggr4" : aggr4,
+  "aggr5" : aggr5
   }
-
+  
+  //console.log(selectedData);
 
   res.send(outputData);
 
