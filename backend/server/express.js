@@ -16,6 +16,9 @@ const targetApiRoot = 'https://donnees.montreal.ca';
 const csvFilePath='cacheData/collisions_routieres.csv'; 
 const dbAdress = "mongodb://127.0.0.1:27017/RDmtlData";
 
+var cors = require('cors') // rm!
+app.use(cors()) // rm!
+
 //Variables
 let lastDataUpdate = -1;
 let dataFetched = 0;
@@ -38,7 +41,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
     console.log("Connected successfully, to Fetch API data");
-    //apiInfo();
+    // apiInfo();
     });
 
 
@@ -54,7 +57,7 @@ async function apiInfo() {
   
   try {
     
-    db.dropDatabase("RDmtlData");
+    // db.dropDatabase("RDmtlData");
 
     apiNext = "/api/3/action/datastore_search?resource_id=05deae93-d9fc-4acb-9779-e0942b5e962f&limit=0";
     const response = await axios.get(targetApiRoot + apiNext)

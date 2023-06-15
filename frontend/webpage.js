@@ -39,3 +39,25 @@ function setMapTarget(newLat, newLong) {
 //       });
 //   });
 
+async function routeData () {
+    // Fetch data and populate textboxes
+    let id = document.getElementById('idDb').value;
+    const res = await fetch("http://localhost:4000/data/?idDB=" + id);
+    var data = await res.json();
+    console.log(data);
+    console.log(data.aspct);
+    
+    window.location.reload()
+    
+    document.getElementById('statdata_01').value = "test";
+    document.getElementById('statdata_02').value = data.borne;
+    document.getElementById('statdata_03').value = data.cdrnl;
+    document.getElementById('statdata_04').value = data.date;
+    document.getElementById('statdata_05').value = data.locln;
+
+    
+
+
+
+
+  };
