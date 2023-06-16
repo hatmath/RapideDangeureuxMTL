@@ -1,13 +1,12 @@
-
 window.onload = async function() {
 
-    const res = await fetch("http://localhost:4000/data/?idDB=91");
+    const res = await fetch("http://localhost:4000/data");
     let data = await res.json();    
     console.log(data);
 
     // Populate data store to textboxes
     document.getElementById('statname_01').innerText = "Date de l’accident";
-    document.getElementById('statname_02').innerText = "Borne kilométrique";
+    document.getElementById('statname_02').innerText = "Nombre de vehicules impliques";
     document.getElementById('statname_03').innerText = "Localisation longitudinale";
     document.getElementById('statname_04').innerText = "Code du point cardinal";
     document.getElementById('statname_05').innerText = "Aspect de la route";
