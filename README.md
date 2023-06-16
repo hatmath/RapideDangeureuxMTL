@@ -6,9 +6,6 @@
 
 #LANCER L'APPLICATION
 
-    cd backend
-    npm install
-    cd ..
     node backend/server/express.js
 
 #ÉNONCÉ
