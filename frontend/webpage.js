@@ -1,3 +1,7 @@
+// Projet: Rapide & Dangereux (Édition ville de Montréal)
+// Codeurs: Joseph, Isabelle, Mathieu
+// Cours : Programmation Web côté serveur (420-289-AH)
+
 window.onload = async function() {
 
     const res = await fetch("http://localhost:4000/data");

@@ -1,12 +1,22 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "TP1 - Rapide & Dangereux (Édition ville de Montréal)",
   "main": "server/express.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "keywords": [
+    "tp1",
+    "API",
+    "Montréal",
+    "MongoDB",
+    "csv",
+    "json",
+    "route",
+    "cartographie"
+  ],
+  "author": "Jospeh Turcotte, Isabelle Coulombe, Mathieu Hatin",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.4.0",

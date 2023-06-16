@@ -1,3 +1,9 @@
+#ENTÊTE
+   
+    Projet: Rapide & Dangereux (Édition ville de Montréal)
+    Codeurs: Joseph, Isabelle, Mathieu
+    Cours : Programmation Web côté serveur (420-289-AH)
+
 #ÉNONCÉ
 
     À remettre le 13 juin 2023 avant 23h59 | Équipe de 2 (30%)
@@ -21,66 +27,45 @@
     Cas 5 : Ajouter un repère « marker » sur une carte (20 points)
     Il faut utiliser l’API de Google (Maps) ou un autre de votre choix. Vous devrez effectuer vos recherches et lire la documentation pour savoir comment l’utiliser. Choisissez la métrique du cas 4 que vous trouvez la plus intéressante et afficher un repère sur ce lieu. Par exemple, affichez un repère à l’endroit où il y a eu le maximum de morts.
 
-#TO DO
-
-    Rechercher to do dans le code pour trouver les choses à faire
-    Si vous ajouter un to do indiquer le dans le code et dans le readme.md
-
-    1. express.js: 
-        La route /data et ce qui en dépend ne fonctionne pas si les données viennent du CSV car _id est auto généré et construit différement des données en provenance l'API. 
-        Par exemple:
-        API:   "_id": "1" 
-        CSV:   "_id": {"$oid": "648b48ddcb29147e9097a838"}
-
-    2. Cas 4
-        index.html: On peux encore améliorer la présentation si quelqu'un le veux
-        Métriques d’agrégations la 4 et la 5 ce ressemble trop trouver autre chose
-    
-    3.
-        express.js: remettre printToConsole=true avant de remettre
-
-
 #NOTES IMPLANTATION
 
     Cas 4: 
         Données descriptives (5)
+        
+            Chosir un accident quelconque et afficher:
 
-        DT_ACCDN
-            Date de l’accident (AAAA-MM-JJ).
-        BORNE_KM_ACCDN
-            lieu est marquée par des bornes kilométriques, le numéro
-            de la borne située le plus près du site de l’accident sera
-            inscrit.
-        CD_LOCLN_ACCDN
-            Localisation longitudinale (le long de la route) du premier fait 
-            physique (impact).
-        CD_PNT_CDRNL_REPRR
-            Code du point cardinal pour la distance du repère:
-            L’accident est survenu au nord, au sud, à l’est ou à l’ouest du
-            numéro d’immeuble, de la borne kilométrique, de l’intersection
-            ou du repère.
-        CD_ASPCT_ROUTE
-            Aspect de la route sur le lieu de l’accident au moment de Alph 2
-            l’impact et dans son entourage immédiat en fonction du champ
-            de vision d’un conducteur assis au volant de son véhicule.
+            DT_ACCDN
+                Date de l’accident (AAAA-MM-JJ).
+            NB_VEH_IMPLIQUES_ACCDN 
+                Nombre de véhicules impliqués dans l'accident
+            CD_LOCLN_ACCDN
+                Localisation longitudinale (le long de la route) du premier fait 
+                physique (impact).
+            CD_PNT_CDRNL_REPRR
+                Code du point cardinal pour la distance du repère:
+                L’accident est survenu au nord, au sud, à l’est ou à l’ouest du
+                numéro d’immeuble, de la borne kilométrique, de l’intersection
+                ou du repère.
+            CD_ASPCT_ROUTE
+                Aspect de la route sur le lieu de l’accident au moment de Alph 2
+                l’impact et dans son entourage immédiat en fonction du champ
+                de vision d’un conducteur assis au volant de son véhicule.
 
 
         Métriques d’agrégations (5)
 
-            1. Le jour de la semaine (JR_SEMN_ACCDN) où il y a le plus d'accident et que CD_COND_METEO=Pluie/bruine
-            2. Le jour de la semaine (JR_SEMN_ACCDN) où il y a le plus d'accident avec CD_GENRE_ACCDN=43(arbre)
-            3. Le jour de la semaine (JR_SEMN_ACCDN) où il y a le plus d'accident et que GRAVITE=Léger
-            4. Rue (RUE_ACCDN) où il y a le plus d'accident à Montréal
-            5. Vitesse autorisée (VITESSE_AUTOR) où il y a le plus d'accident
+            1. Accident en 2017 impliquant un arbre
+            2. Accident en 2019 dans une zone de 40km avec la condition meteo (11-Clair)
+            3. Accident en 2016 impliquant un véhicule d'urgence sur une route categorie (14-rue résidentielle)
+            4. Accident en 2014 le lundi
+            5. Accident en 2013 le vendredi
 
     Cas 5:
-        Le choix est dérivé de la métriques d’agrégations "Rue (RUE_ACCDN) où il y a le plus d'accident à Montréal"
-        Un repère unique sur la rue en question sera placé sur la carte. 
-        Il s'agit seulement de prendre un accident qui a eu lieu sur cette rue comme point de repère (Long-Lat)
+        L'endroit où l'accident chosi pour faire la première partie du cas4, données descriptives c'est produit.
+        Un repère est placé sur la carte à cet endroit.
 
-#ENTÊTE
-   
-    Projet: Rapide & Dangereux (Édition ville de Montréal)
-    Codeurs: Joseph, Isabelle, Mathieu
-    Cours : Programmation Web côté serveur (420-289-AH)
+#TO DO
+
+    Rechercher to do dans le code pour trouver les choses à faire
+    Si vous ajouter un to do indiquer le dans le code et dans le readme.md
     
