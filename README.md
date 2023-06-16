@@ -4,6 +4,13 @@
     Codeurs: Joseph, Isabelle, Mathieu
     Cours : Programmation Web côté serveur (420-289-AH)
 
+#LANCER L'APPLICATION
+
+    cd backend
+    npm install
+    cd ..
+    node backend/server/express.js
+
 #ÉNONCÉ
 
     À remettre le 13 juin 2023 avant 23h59 | Équipe de 2 (30%)
